@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tomar Pedidos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #order-form {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    select, input, button {
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #order-summary {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="order-form">
+    <h2>Tomar Pedido</h2>
+    <label for="client-name">Nombre de Cliente:</label>
+    <input type="text" id="client-name" required>
+
+    <label for="product-select">Producto:</label>
+    <select id="product-select">
+      <option value="750">Empanadas $750</option>
+      <option value="5500">Lomito El 22 $5.500</option>
+      <option value="5800">Lomito Especial $5.800</option>
+      <option value="6500">Lomito N5 $6.500</option>
+      <option value="4600">Alquimia Completa $4.600</option>
+      <option value="4900">Oh My Cheddar! $4.900</option>
+      <option value="4600">Magical Meat $4.600</option>
+      <option value="4600">Blue Moon $4.600</option>
+      <option value="4700">Magical Blue $4.700</option>
+      <option value="4450">American Killer $4.450</option>
+      <option value="4250">Molotov Vegetariana $4.250</option>
+    </select>
+
+    <label for="quantity">Cantidad:</label>
+    <input type="number" id="quantity" value="1" min="-10">
+
+    <label for="details">Detalles:</label>
+    <textarea id="details"></textarea>
+
+    <button onclick="addToOrder()">Agregar al Pedido</button>
+
+    <div id="order-summary">
+      <h3>Resumen del Pedido</h3>
+      <ul id="order-list"></ul>
+      <p>Total: $<span id="total">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    const orderList = document.getElementById('order-list');
+    const totalSpan = document.getElementById('total');
+
+    function addToOrder() {
+      const clientName = document.getElementById('client-name').value;
+      const productSelect = document.getElementById('product-select');
+      const selectedProduct = productSelect.options[productSelect.selectedIndex];
+      const quantity = document.getElementById('quantity').value;
+      const details = document.getElementById('details').value;
+
+      const orderItem = document.createElement('li');
+      orderItem.textContent = `${quantity}x ${selectedProduct.text} - Detalles: ${details}`;
+      orderList.appendChild(orderItem);
+
+      const total = parseFloat(totalSpan.textContent) + (parseFloat(selectedProduct.value) * quantity);
+      totalSpan.textContent = total.toFixed(2);
+    }
+  </script>
+</body>
+</html>
